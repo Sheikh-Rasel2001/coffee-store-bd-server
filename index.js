@@ -80,12 +80,12 @@ async function run() {
             res.send(result);
         })
 
-        app.patch('/users', async(req, res) => {
-            const {email, lastSignInTime} = req.body;
-            const filter = {email: email}
+        app.patch('/users', async (req, res) => {
+            const { email, lastSignInTime } = req.body;
+            const filter = { email: email }
             const updateDoc = {
-                $set : {
-                    lastSignInTime : lastSignInTime
+                $set: {
+                    lastSignInTime: lastSignInTime
                 }
             }
             const result = await usersCollection.updateOne(filter, updateDoc)
@@ -110,7 +110,14 @@ async function run() {
 }
 run().catch(console.dir);
 
+module.exports = app;
 
-app.listen(port, () => {
-    console.log(`Coffee store app running on port ${port}`);
-})
+
+// app.listen(port, () => {
+//     console.log(`Coffee store app running on port ${port}`);
+// })
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+    });
+}
