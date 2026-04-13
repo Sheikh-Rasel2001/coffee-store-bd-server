@@ -80,6 +80,13 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/users/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id : new ObjectId(id)}
+            const result = await usersCollection.findOne(query);
+            res.send(result);
+        })
+
         app.patch('/users', async (req, res) => {
             const { email, lastSignInTime } = req.body;
             const filter = { email: email }
@@ -90,6 +97,18 @@ async function run() {
             }
             const result = await usersCollection.updateOne(filter, updateDoc)
             res.send(result);
+        })
+
+        app.put('/users/:id', async(req, res) => {
+            const id = req.params.id;
+            const filter = {_id : new ObjectId(id)}
+            const options = {upsert: true}
+            const updatedUser = req.body
+            const updateDoc = {
+                $set : updatedUser
+            }
+            const result = await usersCollection.updateOne(filter, updateDoc, options)
+            res.send(result)
         })
 
         app.delete('/users/:id', async (req, res) => {
