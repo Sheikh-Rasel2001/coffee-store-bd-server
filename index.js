@@ -112,12 +112,6 @@ run().catch(console.dir);
 
 module.exports = app;
 
-
-// app.listen(port, () => {
-//     console.log(`Coffee store app running on port ${port}`);
-// })
-if (process.env.NODE_ENV !== 'production') {
-    app.listen(port, () => {
-        console.log(`Server running on port ${port}`);
-    });
-}
+app.listen(port, () => {
+    console.log(`Coffee store app running on port ${port}`);
+})
